@@ -3,14 +3,14 @@ name: Update War Monitor
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"  # runs every 15 minutes
+    - cron: "*/15 * * * *"  # Every 15 minutes
 
 jobs:
   run-news-bot:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -19,7 +19,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run War Monitor Script
+      - name: Run War Monitor
         run: python update_news.py
