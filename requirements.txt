@@ -1,5 +1,5 @@
 Flask==2.3.2
 gunicorn==21.2.0
-feedparser
+feedparser==6.0.10
 requests
 beautifulsoup4
