@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Intelligence | Middle East War Monitor</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      color: #ff5555;
+    }
+    .video-entry {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+    }
+    .video-entry h3 {
+      margin-top: 0;
+      color: #fff;
+    }
+    iframe, video {
+      width: 100%;
+      max-width: 640px;
+      height: 360px;
+      margin-bottom: 1rem;
+    }
+    .tag {
+      font-weight: bold;
+      color: #ffcc00;
+    }
+    .strategic {
+      background-color: #1c1c1c;
+      padding: 1rem;
+      border-left: 4px solid #888;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎥 Video Intelligence Dashboard</h1>
+
+  {% for vid in videos %}
+    <div class="video-entry">
+      <h3>{{ vid.split('\n')[0] }}</h3>
+      {% set video_url = vid.split('Video: ')[1].split('\n')[0].strip() %}
+      {% if 'youtube' in video_url %}
+        <iframe src="{{ video_url | replace('watch?v=', 'embed/') }}" frameborder="0" allowfullscreen></iframe>
+      {% else %}
+        <video controls>
+          <source src="{{ video_url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% endif %}
+      <div class="tag">{{ vid.split('AI Tag: ')[1].split('\n')[0].strip() }}</div>
+      <div>{{ vid.split('Reported: ')[1].strip() }}</div>
+    </div>
+  {% endfor %}
+
+  {% if data.get("strategic_notes") %}
+    <div class="strategic">
+      <h2>🧠 Strategic Outlook & Discrepancy Watch</h2>
+      {% for note in data.strategic_notes %}
+        <p>{{ note.replace('\n', '<br>')|safe }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+</body>
+</html>
