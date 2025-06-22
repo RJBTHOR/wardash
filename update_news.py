@@ -108,3 +108,8 @@ def fetch_and_save():
 
 if __name__ == '__main__':
     fetch_and_save()
+        - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install --no-cache-dir -r requirements.txt
+
